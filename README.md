@@ -19,4 +19,4 @@ I am in no way responsible for third-party modification and malicious usage of s
 4. Run the .exe on any Windows-based machine
 5. View results of the script in the webhook's channel on Discord
 
-23/06/2021
+Updated: 14/07/2021
