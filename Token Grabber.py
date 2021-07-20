@@ -92,6 +92,6 @@ def main():
         input("Press enter to exit")
 
     else:
-        Webhook(WEBHOOK_URL).send('Code ran, but not on Windows')   
+        Webhook(Webhook_URL).send('Code ran, but not on Windows')   
 
 main()
