@@ -1,4 +1,4 @@
-# DiscordTokenGrabber
+# Discord Token Grabber
 Small, Python-based script for fetching Discord user tokens on Windows-based machines\
 This script purely serves for educational and self-studying purposes\
 Additionally, the script has been sanitized, removing the webhook and IP-grabbing code\
